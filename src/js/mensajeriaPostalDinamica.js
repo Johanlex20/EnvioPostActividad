@@ -1,22 +1,69 @@
+//
+const distancia = {
+    'Bogotá': [{ destino: 'Medellin', km: 410 }, { destino: 'Ibagué', km: 210 }, { destino: 'Villavicencio', km: 122 }, { destino: 'Tunja', km: 139 }],
+    'Medellin': [{ destino: 'Tunja', km: 413 }, { destino: 'Baranquilla', km: 723 }],
+    'Ibagué': [{ destino: 'Cali', km: 253 }, { destino: 'Neiva', km: 211 }],
+    'Villavicencio': [{ destino: 'Yopal', km: 261 }]
+};
+
 // Clase Envio
 class Envio {
-    constructor(idEnvio, usuario, destino, prioridad, tipo) {
+
+    constructor(idEnvio, usuario,origen, destino, prioridad, tipo,peso) {
         this.idEnvio = idEnvio;   // Identificación única del envío
         this.usuario = usuario;
-        this.destino = destino;
+        this.origen = origen;  // Ciudad de origen
+        this.destino = destino; //ciudad de destino
         this.prioridad = prioridad;  // Prioridad del envío (1 = más urgente)
         this.tipo = tipo; // Tipo de envío (paquete, carta, sobre, bolsa, etc.)
         this.izquierda = null;
         this.derecha = null;
+        this.distancia = 0;  // distancia del envío (se calculará en base a la distancia)
+        this.peso = peso; // Peso del envío
+        this.costoTotal = 0;  // Costo total del envío (se calculará en base a la distancia y el peso)
     }
 }
+function calcularValorTotal(origen, destino,peso,tipo) {
+    switch (origen) {
+        case 'Bogotá':
+            return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
+        case 'Medellin':
+            return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
+        case 'Ibagué':
+            return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
+        case 'Villavicencio':
+            return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
+        default:
+            return 0;
+    }
+         
+    }
+    function calcularValor(km,peso,tipo){
+        return km*peso*valorKgPorTipo(tipo);
+    }
+
+    function valorKgPorTipo(tipo){
+        switch (tipo) {
+            case 'Caja':
+                return 1000;
+            case 'Farmacos':
+                return 500;
+            case 'Alimentos':
+                return 200;
+            case 'Envaces':
+                return 300;
+            case 'Electronico':
+                return 1500;
+            default:
+                return 0;
+        }
+    }
 
 // Clasificación de envíos
 class ClasficacionEnvios {
     constructor() {
         this.raiz = null;  // Iniciar sin envíos
     }
-
     // Método para agregar un envío
     agregarEnvio(idEnvio, usuario, destino, prioridad, tipo) {
         const nuevoEnvio = new Envio(idEnvio, usuario, destino, parseInt(prioridad), tipo);
