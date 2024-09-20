@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MensajeriaPost</title>
+    <link href="output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="h-screen w-full bg-sky-300 m-4 flex justify-center">
+
+    <div
+        class="grid grid-rows-[10vh_auto_10vh] grid-cols-2 w-4/5 gap-3 rounded-lg shadow-2xl p-2 shadow-sky-800 bg-sky-400">
+        <div class="col-span-3 w-full flex justify-center items-center text-white text-5xl font-extrabold">
+            <h1>Envíos Postales</h1>
+        </div>
+
+        <div class="col-span-1 flex justify-center items-center rounded-lg p-3 bg-slate-200">
+            <form id="formEnvio" class="flex flex-col justify-around w-full h-full">
+
+                <div class="mb-4">
+                    <label class="text-gray-500 font-bold text-2xl" for="idEnvio">ID del Envío:</label>
+                    <input class="mt-2 w-full rounded-lg p-2" type="text" id="idEnvio" name="idEnvio" required>
+                </div>
+                <div class="mb-4">
+                    <label class="text-gray-500 font-bold text-2xl" for="usuario">Nombre del Usuario:</label>
+                    <input class="mt-2 w-full rounded-lg p-2" type="text" id="usuario" name="usuario" required>
+                </div>
+                <div class="mb-4">
+                    <label class="text-gray-500 font-bold text-2xl" for="destino">Destino:</label>
+                    <select class="mt-2 w-full rounded-lg p-2 cursor-pointer" name="destino" id="destino" required>
+                        <option value="">Seleccione</option>
+                        <option value="bogota">Bogota</option>
+                        <option value="medellin">Medellin</option>
+                        <option value="bucaramanga">Bucaramanga</option>
+                        <option value="barranquilla">Barranquilla</option>
+                        <option value="cali">Cali</option>
+                        <option value="boyaca">Boyaca</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="text-gray-500 font-bold text-2xl" for="prioridad">Prioridad del Envío:</label>
+                    <select class="mt-2 w-full rounded-lg p-2 cursor-pointer" name="prioridad" id="prioridad" required>
+                        <option value="">Seleccione</option>
+                        <option value=2>Normal</option>
+                        <option value=1>Premium</option>
+                        <option value=3>Baja</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="text-gray-500 font-bold text-2xl" for="tipo">Tipo de Envío:</label>
+                    <select class="mt-2 w-full rounded-lg p-2 cursor-pointer" name="tipo" id="tipo" required>
+                        <option value="">Seleccione</option>
+                        <option value="caja">Caja</option>
+                        <option value="medicamento">Farmacos</option>
+                        <option value="liquidos">Envases</option>
+                        <option value="alimentos">Alimentos</option>
+                        <option value="electronico">Electronico</option>
+                    </select>
+                </div>
+
+                <div class="h-full flex justify-end items-end">
+                    <button class="bg-gray-500 p-2 rounded text-white font-bold hover:bg-gray-300 cursor-pointer"
+                        type="submit">Agregar Envío</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-span-2 flex flex-col tems-center rounded-lg p-3 bg-slate-200">
+            <h2 class="text-2xl font-bold mb-4">Lista de Envíos</h2>
+            <div id="enviosContainer" class="grid grid-cols-2 gap-4"></div>
+
+            <div class="col-span-2 w-full flex flex-col items-center justify-center gap-4">
+                <div id="filtroCiudadContainer" class="hidden w-full  flex-col items-center gap-2">
+                    <select id="ciudadFiltro" class="rounded-lg p-2 cursor-pointer bg-gray-200">
+                        <option value="">Seleccione una ciudad</option>
+                        <option value="bogota">Bogotá</option>
+                        <option value="medellin">Medellín</option>
+                        <option value="bucaramanga">Bucaramanga</option>
+                        <option value="barranquilla">Barranquilla</option>
+                        <option value="cali">Cali</option>
+                        <option value="boyaca">Boyacá</option>
+                    </select>
+                    <button
+                        class="bg-gray-500 p-2 rounded text-white font-bold hover:bg-gray-300 cursor-pointer flex items-center justify-center"
+                        id="aplicarFiltroBtn" title="Aplicar filtro"><span class="material-icons">search</span>
+                        Filtrar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-span-2 w-full flex items-center justify-center gap-4">
+            <button
+                class="bg-gray-500 p-2 rounded text-white font-bold hover:bg-gray-300 cursor-pointer flex items-center justify-center"
+                id="mostrarEnviosBtn" title="Listar envios"><span class="material-icons">list</span>
+            </button>
+            <button
+                class="bg-gray-500 p-2 rounded text-white font-bold hover:bg-gray-300 cursor-pointer flex items-center justify-center"
+                id="mostrarFiltroBtn" title="Filtrar envios"><span class="material-icons">search</span>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+<script src="./js/mensajeriaPostalDinamica.js"></script>
+
+</html>
