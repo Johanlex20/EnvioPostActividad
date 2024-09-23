@@ -1,15 +1,16 @@
 //
 const distancia = {
-    'Bogotá': [{ destino: 'Medellin', km: 410 }, { destino: 'Ibagué', km: 210 }, { destino: 'Villavicencio', km: 122 }, { destino: 'Tunja', km: 139 }],
-    'Medellin': [{ destino: 'Tunja', km: 413 }, { destino: 'Baranquilla', km: 723 }],
-    'Ibagué': [{ destino: 'Cali', km: 253 }, { destino: 'Neiva', km: 211 }],
-    'Villavicencio': [{ destino: 'Yopal', km: 261 }]
-};
+    'Bogotá': [{ destino: 'Bogotá', km: 50 },{ destino: 'Medellin', km: 410 }, { destino: 'Cali', km: 210 }, { destino: 'Villavicencio', km: 122 }, { destino: 'Barranquilla', km: 539 }],
+    'Medellin': [{ destino: 'Medellin', km: 50 },{ destino:'Bogotá', km: 410 }, { destino: 'Cali', km: 110 }, { destino: 'Villavicencio', km: 222 }, { destino: 'Barranquilla', km: 300 }],
+    'Cali': [{ destino: 'Cali', km: 50 },{ destino: 'Medellin', km: 210 }, { destino: 'Bogotá', km: 500 }, { destino: 'Villavicencio', km: 150 }, { destino: 'Barranquilla', km: 200 }],
+    'Barranquilla': [{ destino: 'Barranquilla', km: 50 },{ destino: 'Medellin', km: 310 }, { destino: 'Cali', km: 150 }, { destino: 'Villavicencio', km: 380 }, { destino: 'Bogotá', km: 550 }],
+    'Villavicencio': [{ destino: 'Villavicencio', km: 50 },{ destino: 'Medellin', km: 222 }, { destino: 'Cali', km: 150 }, { destino: 'Bogotá', km: 120 }, { destino: 'Barranquilla', km: 380 }]
 
+};
 // Clase Envio
 class Envio {
 
-    constructor(idEnvio, usuario,origen, destino, prioridad, tipo,peso) {
+    constructor(idEnvio, usuario,origen, destino, prioridad, tipo,peso,costoTotal) {
         this.idEnvio = idEnvio;   // Identificación única del envío
         this.usuario = usuario;
         this.origen = origen;  // Ciudad de origen
@@ -20,7 +21,7 @@ class Envio {
         this.derecha = null;
         this.distancia = 0;  // distancia del envío (se calculará en base a la distancia)
         this.peso = peso; // Peso del envío
-        this.costoTotal = 0;  // Costo total del envío (se calculará en base a la distancia y el peso)
+        this.costoTotal = costoTotal;  // Costo total del envío (se calculará en base a la distancia y el peso)
     }
 }
 function calcularValorTotal(origen, destino,peso,tipo) {
@@ -29,9 +30,11 @@ function calcularValorTotal(origen, destino,peso,tipo) {
             return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
         case 'Medellin':
             return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
-        case 'Ibagué':
+        case 'Barranquilla':
             return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
         case 'Villavicencio':
+            return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
+        case 'Cali':
             return calcularValor(distancia[origen].find(dist => dist.destino === destino).km,peso,tipo);
         default:
             return 0;
@@ -44,16 +47,16 @@ function calcularValorTotal(origen, destino,peso,tipo) {
 
     function valorKgPorTipo(tipo){
         switch (tipo) {
-            case 'Caja':
-                return 1000;
-            case 'Farmacos':
-                return 500;
-            case 'Alimentos':
-                return 200;
-            case 'Envaces':
-                return 300;
-            case 'Electronico':
-                return 1500;
+            case 'caja':
+                return 10;
+            case 'farmacos':
+                return 5;
+            case 'alimentos':
+                return 2;
+            case 'envases':
+                return 3;
+            case 'electronicos':
+                return 15;
             default:
                 return 0;
         }
@@ -65,9 +68,10 @@ class ClasficacionEnvios {
         this.raiz = null;  // Iniciar sin envíos
     }
     // Método para agregar un envío
-    agregarEnvio(idEnvio, usuario, destino, prioridad, tipo) {
-        const nuevoEnvio = new Envio(idEnvio, usuario, destino, parseInt(prioridad), tipo);
-
+    agregarEnvio(idEnvio, usuario, origen, destino, prioridad, tipo ,peso,costoTotal) {
+        const nuevoEnvio = new Envio(idEnvio, usuario,origen, destino, parseInt(prioridad), tipo, parseFloat(peso),parseFloat(costoTotal));
+        console.log("El costo total del envío es: " + costoTotal +"  peso:  "+peso +"   tipo: "+tipo +"   origen: "+origen +"  destino: "+destino);
+        //idEnvio, usuario,origen, destino, prioridad, tipo,peso
         if (!this.raiz) {
             this.raiz = nuevoEnvio;  // Si el árbol está vacío, el primer envío es la raíz
         } else {
@@ -96,16 +100,19 @@ class ClasficacionEnvios {
     mostrarEnvios(envio = this.raiz, containerHtml) {
         if (envio !== null) {
             this.mostrarEnvios(envio.izquierda, containerHtml);  // Recorrer el subárbol izquierdo (prioridad menor)
-
+    
             // Crear la tarjeta visual de envío
             const envioCard = document.createElement('div');
             envioCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'border', 'border-gray-200');
             envioCard.innerHTML = `
             <h3 class="text-lg font-bold mb-2">ID Envío: ${envio.idEnvio}</h3>
             <p><strong>Usuario:</strong> ${envio.usuario}</p>
+            <p><strong>Origen:</strong> ${envio.origen}</p>
             <p><strong>Destino:</strong> ${envio.destino}</p>
+            <p><strong>Peso:</strong> ${envio.peso} kg</p>
             <p><strong>Prioridad:</strong> ${envio.prioridad}</p>
             <p><strong>Tipo:</strong> ${envio.tipo}</p>
+            <p><strong>Costo: $ </strong> ${envio.costoTotal}</p>
         `;
 
             containerHtml.appendChild(envioCard);
@@ -143,13 +150,16 @@ document.getElementById('formEnvio').addEventListener('submit', function (event)
     // Obtener los valores del formulario
     const idEnvio = document.getElementById('idEnvio').value;
     const usuario = document.getElementById('usuario').value;
+    const origen = document.getElementById('origen').value;
+    const peso = document.getElementById('peso').value;
     const destino = document.getElementById('destino').value;
     const prioridad = document.getElementById('prioridad').value;
     const tipo = document.getElementById('tipo').value;
 
+    //idEnvio, usuario, origen, destino, prioridad, tipo ,peso
     // Agregar el envío al árbol
-    enviosPostales.agregarEnvio(idEnvio, usuario, destino, prioridad, tipo);
-
+    
+    enviosPostales.agregarEnvio(idEnvio, usuario,origen, destino, prioridad, tipo ,peso,calcularValorTotal(origen, destino,peso,tipo));
 
     // Limpiar el formulario después de agregar el envío
     document.getElementById('formEnvio').reset();
@@ -180,6 +190,9 @@ document.getElementById('aplicarFiltroBtn').addEventListener('click', function (
     if (ciudadSeleccionada) {
         // Filtrar los envíos por la ciudad seleccionada
         const enviosEncontrados = enviosPostales.filtrarEnvios(ciudadSeleccionada);
+        console.log(enviosEncontrados);
+        console.log(ciudadSeleccionada);
+        console.log(enviosEncontrados.length);
 
         // Mostrar los resultados filtrados
         if (enviosEncontrados.length > 0) {
@@ -189,7 +202,7 @@ document.getElementById('aplicarFiltroBtn').addEventListener('click', function (
                 envioCard.innerHTML = `
                     <h3 class="text-lg font-bold mb-2">ID Envío: ${envio.idEnvio}</h3>
                     <p><strong>Usuario:</strong> ${envio.usuario}</p>
-                    <p><strong>Destino:</strong> ${envio.destino}</p>
+                    <p><strong>Origen:</strong> ${envio.origen}</p>
                     <p><strong>Prioridad:</strong> ${envio.prioridad}</p>
                     <p><strong>Tipo:</strong> ${envio.tipo}</p>
                 `;

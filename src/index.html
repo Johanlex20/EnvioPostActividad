@@ -24,22 +24,43 @@
                     <label class="text-gray-500 font-bold text-2xl" for="idEnvio">ID del Envío:</label>
                     <input class="mt-2 w-full rounded-lg p-2" type="text" id="idEnvio" name="idEnvio" required>
                 </div>
-                <div class="mb-4">
-                    <label class="text-gray-500 font-bold text-2xl" for="usuario">Nombre del Usuario:</label>
-                    <input class="mt-2 w-full rounded-lg p-2" type="text" id="usuario" name="usuario" required>
+                <div class="mb-4 flex" >
+                    <div>
+                        <label class="text-gray-500 font-bold text-2xl" for="usuario">Nombre del Usuario:</label>
+                        <input class="mt-2 w-11/12 rounded-lg p-2 " type="text" id="usuario" name="usuario" required>
+                    </div>
+                    <div>
+                        <label class="text-gray-500 font-bold text-2xl" for="peso">Ingrese Peso (kg):</label>
+                        <input class="mt-2 w-full rounded-lg p-2" type="number" id="peso" name="peso" placeholder=" 0.0 Kg" required>
+                    </div>
+                    
                 </div>
+                <div class="mb-4">
+                    <label class="text-gray-500 font-bold text-2xl" for="origen">Origen:</label>
+                    <select class="mt-2 w-full rounded-lg p-2 cursor-pointer" name="origen" id="origen" required>
+                        <option value="select">Seleccione Origen</option>
+                        <option value="Bogotá">Bogotá</option>
+                        <option value="Medellin">Medellin</option>
+                        <option value="Cali">Cali</option>
+                        <option value="Barranquilla">Barranquilla</option>
+                        <option value="Villavicencio">Villavicencio</option>
+                    </select>
+                </div>
+
                 <div class="mb-4">
                     <label class="text-gray-500 font-bold text-2xl" for="destino">Destino:</label>
                     <select class="mt-2 w-full rounded-lg p-2 cursor-pointer" name="destino" id="destino" required>
-                        <option value="">Seleccione</option>
-                        <option value="bogota">Bogota</option>
-                        <option value="medellin">Medellin</option>
-                        <option value="bucaramanga">Bucaramanga</option>
-                        <option value="barranquilla">Barranquilla</option>
-                        <option value="cali">Cali</option>
-                        <option value="boyaca">Boyaca</option>
+                        <option value="select">Seleccione destino</option>
+                        <option value="Bogotá">Bogotá</option>
+                        <option value="Medellin">Medellin</option>
+                        <option value="Cali">Cali</option>
+                        <option value="Barranquilla">Barranquilla</option>
+                        <option value="Villavicencio">Villavicencio</option>
                     </select>
                 </div>
+                
+             
+
                 <div class="mb-4">
                     <label class="text-gray-500 font-bold text-2xl" for="prioridad">Prioridad del Envío:</label>
                     <select class="mt-2 w-full rounded-lg p-2 cursor-pointer" name="prioridad" id="prioridad" required>
@@ -55,10 +76,10 @@
                     <select class="mt-2 w-full rounded-lg p-2 cursor-pointer" name="tipo" id="tipo" required>
                         <option value="">Seleccione</option>
                         <option value="caja">Caja</option>
-                        <option value="medicamento">Farmacos</option>
-                        <option value="liquidos">Envases</option>
+                        <option value="farmacos">Farmacos</option>
+                        <option value="envases">Envases</option>
                         <option value="alimentos">Alimentos</option>
-                        <option value="electronico">Electronico</option>
+                        <option value="electronicos">Electronico</option>
                     </select>
                 </div>
 
@@ -77,12 +98,11 @@
                 <div id="filtroCiudadContainer" class="hidden w-full  flex-col items-center gap-2">
                     <select id="ciudadFiltro" class="rounded-lg p-2 cursor-pointer bg-gray-200">
                         <option value="">Seleccione una ciudad</option>
-                        <option value="bogota">Bogotá</option>
-                        <option value="medellin">Medellín</option>
-                        <option value="bucaramanga">Bucaramanga</option>
-                        <option value="barranquilla">Barranquilla</option>
-                        <option value="cali">Cali</option>
-                        <option value="boyaca">Boyacá</option>
+                        <option value="Bogotá">Bogotá</option>
+                        <option value="Medellin">Medellín</option>
+                        <option value="Villavicencio">Villavicencio</option>
+                        <option value="Barranquilla">Barranquilla</option>
+                        <option value="Cali">Cali</option>
                     </select>
                     <button
                         class="bg-gray-500 p-2 rounded text-white font-bold hover:bg-gray-300 cursor-pointer flex items-center justify-center"
